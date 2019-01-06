@@ -89,6 +89,33 @@ class TestConsole(unittest.TestCase):
             self.assertEqual(
                 "[[User]", f.getvalue()[:7])
 
+    def test_create_str(self):
+        """Test create command input str attr"""
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("create User name=\"Francesca\"")
+            self.assertEqual(37, len(f.getvalue()))
+
+    def test_create_int(self):
+        """Test create command input int attr"""
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("create User age=\"6\"")
+            self.assertEqual(37, len(f.getvalue()))
+
+    def test_create_float(self):
+        """Test create command input float attr"""
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("create User weight=\"100.1\"")
+            self.assertEqual(37, len(f.getvalue()))
+
+    def test_create_complex(self):
+        """Test create command input with complex attr"""
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("create User name=\"Steve_Chu\" age=\"1\"")
+            self.assertEqual(37, len(f.getvalue()))
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("all User")
+            self.assertIn("Steve Chu", f.getvalue())
+
     def test_show(self):
         """Test show command inpout"""
         with patch('sys.stdout', new=StringIO()) as f:
