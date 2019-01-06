@@ -43,6 +43,7 @@ class HBNBCommand(cmd.Cmd):
             SyntaxError: when there is no args given
             NameError: when there is no object taht has the name
         """
+        my_list = []
         try:
             if not arg:
                 raise SyntaxError()
