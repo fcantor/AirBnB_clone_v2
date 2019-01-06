@@ -56,4 +56,5 @@ Ex:
 #### Authors:
 
 [Francesca Cantor](https://github.com/fcantor)
+
 [Stephen Chu](https://github.com/stephenchu530)
