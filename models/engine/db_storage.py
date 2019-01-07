@@ -33,7 +33,7 @@ class DBStorage:
                                              db),
                                       pool_pre_ping=True)
         if test == 'test':
-            Base.metadata.drop_all(bind=engine)
+            Base.metadata.drop_all(bind=self.__engine)
 
     def all(self, cls=None):
         """Queries the current db session"""
@@ -66,5 +66,5 @@ class DBStorage:
     def reload(self):
         """Create all tables in the DB"""
         Base.metadata.create_all(self.__engine)
-        self.__session = scoped_session(sessionmaker(bind=engine,
+        self.__session = scoped_session(sessionmaker(bind=self.__engine,
                                                      expire_on_commit=False)())
