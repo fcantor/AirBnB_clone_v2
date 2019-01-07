@@ -27,7 +27,7 @@ class TestFileStorage(unittest.TestCase):
         cls.storage = FileStorage()
 
     @classmethod
-    def teardown(cls):
+    def tearDownClass(cls):
         """at the end of the test this will tear it down"""
         del cls.user
 
@@ -91,6 +91,36 @@ class TestFileStorage(unittest.TestCase):
                 self.assertEqual(line, "{}")
         self.assertIs(self.storage.reload(), None)
 
+    def test_delete(self):
+        """ Tests the delete method """
+        storage = FileStorage()
+        all_users = storage.all(User)
+        user_count_init = len(all_users.keys())
+        user = User()
+        storage.delete(user)
+        all_users = storage.all(User)
+        user_count_after = len(all_users.keys())
+        self.assertEqual(user_count_init, user_count_after)
 
+    def test_delete_two(self):
+        """ Tests the delete method by passing in None """
+        storage = FileStorage()
+        all_users = storage.all(User)
+        user_count_init = len(all_users.keys())
+        storage.delete()
+        all_users = storage.all(User)
+        user_count_after = len(all_users.keys())
+        self.assertEqual(user_count_init, user_count_after)
+
+    def test_delete_two(self):
+        """ Tests the delete method by passing in garbage """
+        storage = FileStorage()
+        all_users = storage.all(User)
+        user_count_init = len(all_users.keys())
+        storage.delete("dogs")
+        all_users = storage.all(User)
+        user_count_after = len(all_users.keys())
+        self.assertEqual(user_count_init, user_count_after)
+           
 if __name__ == "__main__":
     unittest.main()
