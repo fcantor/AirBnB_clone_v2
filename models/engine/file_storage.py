@@ -27,7 +27,7 @@ class FileStorage:
         """
         results = {}
         if cls:
-            for k,v in self.__objects.items():
+            for k, v in self.__objects.items():
                 if cls is type(v):
                     results[k] = v
             return results
@@ -63,12 +63,11 @@ class FileStorage:
         except FileNotFoundError:
             pass
 
-
     def delete(self, obj=None):
         ''' Deletes obj from __objects if it's inside '''
         results = []
         if obj:
-            for k,v in self.__objects.items():
+            for k, v in self.__objects.items():
                 if obj is v:
                     results.append(k)
             for k in results:
