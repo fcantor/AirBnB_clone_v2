@@ -52,6 +52,36 @@ class TestFileStorage(unittest.TestCase):
         self.assertEqual(type(obj), dict)
         self.assertIs(obj, storage._FileStorage__objects)
 
+    def test_new_all_one(self):
+        """ Tests the new all method """
+        storage = FileStorage()
+        all_users = storage.all(User)
+        user_count_init = len(all_users.keys())
+        user = User()
+        all_users = storage.all(User)
+        user_count_after = len(all_users.keys())
+        self.assertEqual(user_count_init, user_count_after - 1)
+
+    def test_new_all_two(self):
+        """ Tests the new all method by passing in None """
+        storage = FileStorage()
+        all_users = storage.all()
+        user_count_init = len(all_users.keys())
+        user = User()
+        all_users = storage.all()
+        user_count_after = len(all_users.keys())
+        self.assertEqual(user_count_init, user_count_after - 1)
+
+    def test_new_all_three(self):
+        """ Tests the new all method by passing in garbage """
+        storage = FileStorage()
+        all_users = storage.all("dogs")
+        user_count_init = len(all_users.keys())
+        user = User()
+        all_users = storage.all("dogs")
+        user_count_after = len(all_users.keys())
+        self.assertEqual(user_count_init, user_count_after)
+
     def test_new(self):
         """test when new is created"""
         storage = FileStorage()
@@ -91,7 +121,7 @@ class TestFileStorage(unittest.TestCase):
                 self.assertEqual(line, "{}")
         self.assertIs(self.storage.reload(), None)
 
-    def test_delete(self):
+    def test_delete_one(self):
         """ Tests the delete method """
         storage = FileStorage()
         all_users = storage.all(User)
@@ -112,7 +142,7 @@ class TestFileStorage(unittest.TestCase):
         user_count_after = len(all_users.keys())
         self.assertEqual(user_count_init, user_count_after)
 
-    def test_delete_two(self):
+    def test_delete_three(self):
         """ Tests the delete method by passing in garbage """
         storage = FileStorage()
         all_users = storage.all(User)
@@ -121,6 +151,6 @@ class TestFileStorage(unittest.TestCase):
         all_users = storage.all(User)
         user_count_after = len(all_users.keys())
         self.assertEqual(user_count_init, user_count_after)
-           
+
 if __name__ == "__main__":
     unittest.main()
