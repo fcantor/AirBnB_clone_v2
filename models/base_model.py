@@ -5,6 +5,7 @@ import models
 from datetime import datetime
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
+from os import getenv
 
 Base = declarative_base()
 
@@ -33,11 +34,14 @@ class BaseModel:
             created_at: creation date
             updated_at: updated date
         """
+        storage_system = getenv('HBNB_TYPE_STORAGE')
         if kwargs:
             for key, value in kwargs.items():
                 if key == "created_at" or key == "updated_at":
                     value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
                 if key != "__class__":
+                    if storage_system == 'db':
+                        value = value.strip('"')
                     setattr(self, key, value)
             if 'id' not in kwargs.keys():
                 self.id = str(uuid.uuid4())
