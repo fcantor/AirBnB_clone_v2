@@ -39,7 +39,7 @@ class DBStorage:
         """Queries the current db session"""
         return_dict = {}
         if cls:
-            query_result = self.__session.query(cls).all()
+            query_result = self.__session.query(eval(cls)).all()
         else:
             query_result = self.__session.query().all()
         for obj in query_result:
