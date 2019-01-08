@@ -58,9 +58,9 @@ class DBStorage:
     def delete(self, obj=None):
         """Delete obj from current DB session"""
         if obj:
-            result = self.__session.query(obj.__class__.__name__).all()
+            result = self.__session.query(eval(obj.__class__.__name__)).all()
             for row in result:
-                if row == obj:
+                if row.id is obj.id:
                     self.__session.delete(row)
 
     def reload(self):
