@@ -41,7 +41,11 @@ class DBStorage:
         if cls:
             query_result = self.__session.query(eval(cls)).all()
         else:
-            query_result = self.__session.query().all()
+            query_result = []
+            query_result += self.__session.query(State).all()
+            query_result += self.__session.query(City).all()
+            query_result += self.__session.query(User).all()
+            query_result += self.__session.query(Place).all()
         for obj in query_result:
             key = "{}.{}".format(type(obj).__name__, obj.id)
             return_dict[key] = obj
