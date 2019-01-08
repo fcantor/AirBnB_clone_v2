@@ -48,26 +48,25 @@ class HBNBCommand(cmd.Cmd):
             if not arg:
                 raise SyntaxError()
             my_list = arg.split()
-            obj = eval("{}()".format(my_list[0]))
+            if len(my_list) > 0:
+                param_list = my_list[1:]
+                kv_args = {}
+                for param in param_list:
+                    key_value = param.split("=")
+                    if len(key_value) == 2 and\
+                       type(key_value[1]) in [str, int, float]:
+                        if isinstance(key_value[1], str):
+                            key_value[1] = key_value[1].replace("_", " ")
+                        else:
+                            key_value[1] = str(key_value[1])
+                        kv_args[key_value[0]] = key_value[1]
+            obj = eval("{}(**kv_args)".format(my_list[0]))
             obj.save()
             print("{}".format(obj.id))
         except SyntaxError:
             print("** class name missing **")
         except NameError:
             print("** class doesn't exist **")
-        if len(my_list) > 0:
-            param_list = my_list[1:]
-            for param in param_list:
-                key_value = param.split("=")
-                if len(key_value) == 2 and\
-                   type(key_value[1]) in [str, int, float]:
-                    if isinstance(key_value[1], str):
-                        key_value[1] = key_value[1].replace("_", " ")
-                    else:
-                        key_value[1] = str(key_value[1])
-                    line = my_list[0] + " " + str(obj.id) + " "\
-                        + key_value[0] + " " + key_value[1]
-                    self.do_update(line)
 
     def do_show(self, line):
         """Prints the string representation of an instance
@@ -137,7 +136,7 @@ class HBNBCommand(cmd.Cmd):
         Exceptions:
             NameError: when there is no object taht has the name
         """
-        objects = storage.all()
+        objects = storage.all(line)
         my_list = []
         if not line:
             for key in objects:
