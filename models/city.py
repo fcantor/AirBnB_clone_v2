@@ -19,3 +19,4 @@ class City(BaseModel, Base):
                       ForeignKey('states.id'),
                       nullable=False)
     state = relationship("State")
+    places = relationship("Place", cascade="all")
