@@ -1,8 +1,10 @@
 #!/usr/bin/python3
 """This is the place class"""
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, Integer, Float, String, ForeignKey
+from sqlalchemy import Column, Integer, Float, String, ForeignKey, Table
 from sqlalchemy.orm import relationship
+from models.amenity import Amenity
+from models.review import Review
 
 
 class Place(BaseModel, Base):
@@ -20,6 +22,19 @@ class Place(BaseModel, Base):
         longitude: longitude in float
         amenity_ids: list of Amenity ids
     """
+    place_amenity = Table('place_amenity', Base.metadata,
+                          Column('place_id',
+                                 String(60),
+                                 ForeignKey('places.id',
+                                            onupdate='CASCADE',
+                                            ondelete='CASCADE'),
+                                 primary_key=True),
+                          Column('amenity_id',
+                                 String(60),
+                                 ForeignKey('places.id',
+                                            onupdate='CASCADE',
+                                            ondelete='CASCADE'),
+                                 primary_key=True))
     __tablename__ = 'places'
     city_id = Column(String(60),
                      ForeignKey('cities.id'),
@@ -51,6 +66,10 @@ class Place(BaseModel, Base):
     user = relationship("User", foreign_keys=[user_id])
     cities = relationship("City", foreign_keys=[city_id])
     reviews = relationship("Review", cascade="all")
+    amenities = relationship("Amenity",
+                             secondary="place_amenity",
+                             backref="place_amenities",
+                             viewonly=False)
 
     @property
     def reviews(self):
@@ -61,3 +80,13 @@ class Place(BaseModel, Base):
             if v.place_id == self.id:
                 review_list.append(v)
         return review_list
+
+    @property
+    def amenities(self):
+        ''' Returns list of amenity instances '''
+        results = storage.all(Amenity)
+        amenity_list = []
+        for k, v in results.items():
+            if v.amenity_id == self.id:
+                amenity_list.append(v)
+        return amenity_list
