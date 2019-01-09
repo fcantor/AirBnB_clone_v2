@@ -28,7 +28,7 @@ class FileStorage:
         results = {}
         if cls:
             for k, v in self.__objects.items():
-                if cls == v.__class__:
+                if cls == v.__class__.__name__:
                     results[k] = v
             return results
         else:
