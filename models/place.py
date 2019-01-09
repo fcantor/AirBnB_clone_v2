@@ -1,10 +1,24 @@
 #!/usr/bin/python3
 """This is the place class"""
+import models
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, Integer, Float, String, ForeignKey, Table
 from sqlalchemy.orm import relationship
 from models.amenity import Amenity
 from models.review import Review
+
+
+place_amenity = Table('place_amenity', Base.metadata,
+                      Column('place_id',
+                             String(60),
+                             ForeignKey('places.id'),
+                             nullable=False,
+                             primary_key=True),
+                      Column('amenity_id',
+                             String(60),
+                             ForeignKey('places.id'),
+                             nullable=False,
+                             primary_key=True))
 
 
 class Place(BaseModel, Base):
@@ -22,19 +36,6 @@ class Place(BaseModel, Base):
         longitude: longitude in float
         amenity_ids: list of Amenity ids
     """
-    place_amenity = Table('place_amenity', Base.metadata,
-                          Column('place_id',
-                                 String(60),
-                                 ForeignKey('places.id',
-                                            onupdate='CASCADE',
-                                            ondelete='CASCADE'),
-                                 primary_key=True),
-                          Column('amenity_id',
-                                 String(60),
-                                 ForeignKey('places.id',
-                                            onupdate='CASCADE',
-                                            ondelete='CASCADE'),
-                                 primary_key=True))
     __tablename__ = 'places'
     city_id = Column(String(60),
                      ForeignKey('cities.id'),
@@ -68,13 +69,12 @@ class Place(BaseModel, Base):
     reviews = relationship("Review", cascade="all")
     amenities = relationship("Amenity",
                              secondary="place_amenity",
-                             backref="place_amenities",
                              viewonly=False)
 
     @property
     def reviews(self):
         ''' Returns list of review instances '''
-        results = storage.all(Review)
+        results = models.storage.all(Review)
         review_list = []
         for k, v in results.items():
             if v.place_id == self.id:
@@ -84,9 +84,14 @@ class Place(BaseModel, Base):
     @property
     def amenities(self):
         ''' Returns list of amenity instances '''
-        results = storage.all(Amenity)
+        results = models.storage.all(Amenity)
         amenity_list = []
         for k, v in results.items():
-            if v.amenity_id == self.id:
+            if k.split('.')[1] in type(self).amenity_ids:
                 amenity_list.append(v)
         return amenity_list
+
+    @amenities.setter
+    def amenities(self, obj):
+        if obj and isinstance(obj, Amenity):
+            type(self).amenity_ids.append(obj.id)
