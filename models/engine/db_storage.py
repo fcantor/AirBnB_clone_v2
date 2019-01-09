@@ -52,10 +52,6 @@ class DBStorage:
             query_result += self.__session.query(Place).all()
         for obj in query_result:
             key = "{}.{}".format(type(obj).__name__, obj.id)
-            try:
-                del obj._sa_instance_state
-            except:
-                pass
             return_dict[key] = obj
         return return_dict
 
@@ -70,10 +66,7 @@ class DBStorage:
     def delete(self, obj=None):
         """Delete obj from current DB session"""
         if obj:
-            result = self.__session.query(eval(obj.__class__.__name__)).all()
-            for row in result:
-                if row.id is obj.id:
-                    self.__session.delete(row)
+            self.__session.delete(obj)
 
     def reload(self):
         """Create all tables in the DB"""
