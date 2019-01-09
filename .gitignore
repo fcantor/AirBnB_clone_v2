@@ -5,3 +5,4 @@ __pycache__
 *.cpython-36.pyc
 file.json
 main_delete.py
+main_place_amenities.py
