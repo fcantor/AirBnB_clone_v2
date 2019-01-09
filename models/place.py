@@ -50,3 +50,14 @@ class Place(BaseModel, Base):
     amenity_ids = []
     user = relationship("User", foreign_keys=[user_id])
     cities = relationship("City", foreign_keys=[city_id])
+    reviews = relationships("Review", cascade="all")
+
+    @property
+    def reviews(self):
+        ''' Returns list of review instances '''
+        results = storage.all(Review)
+        review_list = []
+        for k, v in results.items():
+            if v.place_id == self.id:
+                review_list.append(v)
+        return review_list
