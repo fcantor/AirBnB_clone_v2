@@ -28,7 +28,7 @@ class FileStorage:
         results = {}
         if cls:
             for k, v in self.__objects.items():
-                if cls == v.__class__.__name__:
+                if cls == v.__class__:
                     results[k] = v
             return results
         else:
@@ -72,3 +72,4 @@ class FileStorage:
                     results.append(k)
             for k in results:
                 del self.__objects[k]
+            self.save()
