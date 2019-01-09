@@ -6,6 +6,7 @@ from sqlalchemy import Column, Integer, Float, String, ForeignKey, Table
 from sqlalchemy.orm import relationship
 from models.amenity import Amenity
 from models.review import Review
+from os import getenv
 
 
 place_amenity = Table('place_amenity', Base.metadata,
@@ -71,27 +72,29 @@ class Place(BaseModel, Base):
                              secondary="place_amenity",
                              viewonly=False)
 
-    @property
-    def reviews(self):
-        ''' Returns list of review instances '''
-        results = models.storage.all(Review)
-        review_list = []
-        for k, v in results.items():
-            if v.place_id == self.id:
-                review_list.append(v)
-        return review_list
+    if getenv('HBNB_TYPE_STORAGE') != 'db':
+        @property
+        def reviews(self):
+            ''' Returns list of review instances '''
+            results = models.storage.all(Review)
+            review_list = []
+            for review in results.values():
+                if review.place_id == self.id:
+                    review_list.append(review)
+            return review_list
 
-    @property
-    def amenities(self):
-        ''' Returns list of amenity instances '''
-        results = models.storage.all(Amenity)
-        amenity_list = []
-        for k, v in results.items():
-            if k.split('.')[1] in type(self).amenity_ids:
-                amenity_list.append(v)
-        return amenity_list
+        @property
+        def amenities(self):
+            ''' Returns list of amenity instances '''
+            amenity_list = []
+            results = models.storage.all(Amenity)
+            for amenity in results.values():
+                if amenity.id in self.amenity_ids:
+                    amenity_list.append(amenity)
+            return amenity_list
 
-    @amenities.setter
-    def amenities(self, obj):
-        if obj and isinstance(obj, Amenity):
-            type(self).amenity_ids.append(obj.id)
+        @amenities.setter
+        def amenities(self, obj):
+            ''' Appends place id for amenities '''
+            if obj and isinstance(obj, Amenity):
+                type(self).amenity_ids.append(obj.id)
