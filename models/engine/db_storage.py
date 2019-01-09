@@ -52,6 +52,10 @@ class DBStorage:
             query_result += self.__session.query(Place).all()
         for obj in query_result:
             key = "{}.{}".format(type(obj).__name__, obj.id)
+            try:
+                del obj._sa_instance_state
+            except:
+                pass
             return_dict[key] = obj
         return return_dict
 
