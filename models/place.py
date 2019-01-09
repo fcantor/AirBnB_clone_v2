@@ -50,7 +50,7 @@ class Place(BaseModel, Base):
     amenity_ids = []
     user = relationship("User", foreign_keys=[user_id])
     cities = relationship("City", foreign_keys=[city_id])
-    reviews = relationships("Review", cascade="all")
+    reviews = relationship("Review", cascade="all")
 
     @property
     def reviews(self):
