@@ -56,7 +56,8 @@ class HBNBCommand(cmd.Cmd):
                     if len(key_value) == 2 and\
                        type(key_value[1]) in [str, int, float]:
                         if isinstance(key_value[1], str):
-                            key_value[1] = key_value[1].replace("_", " ")
+                            if key_value[0] not in ['email', 'password']:
+                                key_value[1] = key_value[1].replace("_", " ")
                         else:
                             key_value[1] = str(key_value[1])
                         kv_args[key_value[0]] = key_value[1]
