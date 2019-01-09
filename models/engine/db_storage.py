@@ -39,7 +39,11 @@ class DBStorage:
         """Queries the current db session"""
         return_dict = {}
         if cls:
-            query_result = self.__session.query(eval(cls)).all()
+            query_result = []
+            try:
+                query_result = self.__session.query(eval(cls)).all()
+            except:
+                pass
         else:
             query_result = []
             query_result += self.__session.query(State).all()
