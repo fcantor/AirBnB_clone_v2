@@ -19,6 +19,8 @@ from models.review import Review
 from models.engine.file_storage import FileStorage
 
 
+@unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
+                 'Test for filestorage only')
 class TestConsole(unittest.TestCase):
     """this will test the console"""
 

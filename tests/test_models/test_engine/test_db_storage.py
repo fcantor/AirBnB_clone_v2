@@ -25,7 +25,7 @@ class TestDBStorage(unittest.TestCase):
         cls.user.first_name = "Kev"
         cls.user.last_name = "Yo"
         cls.user.email = "1234@yahoo.com"
-        cls.storage = FileStorage()
+        cls.storage = DBStorage()
 
     @classmethod
     def tearDownClass(cls):

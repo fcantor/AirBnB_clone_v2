@@ -6,6 +6,8 @@ from models.base_model import BaseModel
 import pep8
 
 
+@unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
+                 'Test for filestorage only')
 class TestBaseModel(unittest.TestCase):
     """this will test the base model class"""
 
