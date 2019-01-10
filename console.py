@@ -48,9 +48,9 @@ class HBNBCommand(cmd.Cmd):
             if not arg:
                 raise SyntaxError()
             my_list = arg.split()
+            kv_args = {}
             if len(my_list) > 0:
                 param_list = my_list[1:]
-                kv_args = {}
                 for param in param_list:
                     key_value = param.split("=")
                     if len(key_value) == 2 and\
