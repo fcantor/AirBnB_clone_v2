@@ -19,8 +19,6 @@ from models.engine.file_storage import FileStorage
 class TestFileStorage(unittest.TestCase):
     '''this will test the FileStorage'''
 
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
-                 'Test for filestorage only')
     @classmethod
     def setUpClass(cls):
         """set up for test"""
@@ -30,15 +28,11 @@ class TestFileStorage(unittest.TestCase):
         cls.user.email = "1234@yahoo.com"
         cls.storage = FileStorage()
 
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
-                     'Test for filestorage only')
     @classmethod
     def tearDownClass(cls):
         """at the end of the test this will tear it down"""
         del cls.user
 
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
-                     'Test for filestorage only')
     def tearDown(self):
         """teardown"""
         try:
@@ -46,16 +40,12 @@ class TestFileStorage(unittest.TestCase):
         except Exception:
             pass
 
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
-                     'Test for filestorage only')
     def test_pep8_FileStorage(self):
         """Tests pep8 style"""
         style = pep8.StyleGuide(quiet=True)
         p = style.check_files(['models/engine/file_storage.py'])
         self.assertEqual(p.total_errors, 0, "fix pep8")
 
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
-                 'Test for filestorage only')
     def test_all(self):
         """tests if all works in File Storage"""
         storage = FileStorage()
@@ -64,8 +54,6 @@ class TestFileStorage(unittest.TestCase):
         self.assertEqual(type(obj), dict)
         self.assertIs(obj, storage._FileStorage__objects)
 
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
-                 'Test for filestorage only')
     def test_new_all_one(self):
         """ Tests the new all method """
         storage = FileStorage()
@@ -76,8 +64,6 @@ class TestFileStorage(unittest.TestCase):
         user_count_after = len(all_users.keys())
         self.assertEqual(user_count_init, user_count_after - 1)
 
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
-                     'Test for filestorage only')
     def test_new_all_two(self):
         """ Tests the new all method by passing in None """
         storage = FileStorage()
@@ -88,8 +74,6 @@ class TestFileStorage(unittest.TestCase):
         user_count_after = len(all_users.keys())
         self.assertEqual(user_count_init, user_count_after - 1)
 
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
-                     'Test for filestorage only')
     def test_new_all_three(self):
         """ Tests the new all method by passing in garbage """
         storage = FileStorage()
@@ -100,8 +84,6 @@ class TestFileStorage(unittest.TestCase):
         user_count_after = len(all_users.keys())
         self.assertEqual(user_count_init, user_count_after)
 
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
-                     'Test for filestorage only')
     def test_new(self):
         """test when new is created"""
         storage = FileStorage()
@@ -113,8 +95,6 @@ class TestFileStorage(unittest.TestCase):
         key = user.__class__.__name__ + "." + str(user.id)
         self.assertIsNotNone(obj[key])
 
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
-                     'Test for filestorage only')
     def test_reload_filestorage(self):
         """
         tests reload
@@ -143,8 +123,6 @@ class TestFileStorage(unittest.TestCase):
                 self.assertEqual(line, "{}")
         self.assertIs(self.storage.reload(), None)
 
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
-                     'Test for filestorage only')
     def test_delete_one(self):
         """ Tests the delete method """
         storage = FileStorage()
@@ -156,8 +134,6 @@ class TestFileStorage(unittest.TestCase):
         user_count_after = len(all_users.keys())
         self.assertEqual(user_count_init, user_count_after)
 
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
-                     'Test for filestorage only')
     def test_delete_two(self):
         """ Tests the delete method by passing in None """
         storage = FileStorage()
@@ -168,8 +144,6 @@ class TestFileStorage(unittest.TestCase):
         user_count_after = len(all_users.keys())
         self.assertEqual(user_count_init, user_count_after)
 
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
-                     'Test for filestorage only')
     def test_delete_three(self):
         """ Tests the delete method by passing in garbage """
         storage = FileStorage()
