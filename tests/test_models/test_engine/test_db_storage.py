@@ -4,18 +4,19 @@ import unittest
 import pep8
 import json
 import os
-from models.base_model import BaseModel
+from models.base_model import BaseModel, Base
 from models.user import User
 from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
-from models.engine.file_storage import FileStorage
+from models.engine.db_storage import DBStorage
 
-
-class TestFileStorage(unittest.TestCase):
-    '''this will test the FileStorage'''
+@unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != 'db',
+                     "Test for Database only")
+class TestDBStorage(unittest.TestCase):
+    '''this will test the DBStorage'''
 
     @classmethod
     def setUpClass(cls):
@@ -31,126 +32,33 @@ class TestFileStorage(unittest.TestCase):
         """at the end of the test this will tear it down"""
         del cls.user
 
-    def tearDown(self):
-        """teardown"""
-        try:
-            os.remove("file.json")
-        except Exception:
-            pass
-
-    def test_pep8_FileStorage(self):
+    def test_pep8_DBStorage(self):
         """Tests pep8 style"""
         style = pep8.StyleGuide(quiet=True)
-        p = style.check_files(['models/engine/file_storage.py'])
+        p = style.check_files(['models/engine/db_storage.py'])
         self.assertEqual(p.total_errors, 0, "fix pep8")
 
     def test_all(self):
         """tests if all works in File Storage"""
-        storage = FileStorage()
-        obj = storage.all()
-        self.assertIsNotNone(obj)
-        self.assertEqual(type(obj), dict)
-        self.assertIs(obj, storage._FileStorage__objects)
-
-    def test_new_all_one(self):
-        """ Tests the new all method """
-        storage = FileStorage()
-        all_users = storage.all(User)
-        user_count_init = len(all_users.keys())
-        user = User()
-        all_users = storage.all(User)
-        user_count_after = len(all_users.keys())
-        self.assertEqual(user_count_init, user_count_after - 1)
-
-    def test_new_all_two(self):
-        """ Tests the new all method by passing in None """
-        storage = FileStorage()
-        all_users = storage.all()
-        user_count_init = len(all_users.keys())
-        user = User()
-        all_users = storage.all()
-        user_count_after = len(all_users.keys())
-        self.assertEqual(user_count_init, user_count_after - 1)
-
-    def test_new_all_three(self):
-        """ Tests the new all method by passing in garbage """
-        storage = FileStorage()
-        all_users = storage.all("dogs")
-        user_count_init = len(all_users.keys())
-        user = User()
-        all_users = storage.all("dogs")
-        user_count_after = len(all_users.keys())
-        self.assertEqual(user_count_init, user_count_after)
+        pass
 
     def test_new(self):
         """test when new is created"""
-        storage = FileStorage()
-        obj = storage.all()
-        user = User()
-        user.id = 123455
-        user.name = "Kevin"
-        storage.new(user)
-        key = user.__class__.__name__ + "." + str(user.id)
-        self.assertIsNotNone(obj[key])
+        pass
 
-    def test_reload_filestorage(self):
+    def test_save(self):
+        """ tests save method """
+        pass
+
+    def test_reload(self):
         """
         tests reload
         """
-        self.storage.save()
-        Root = os.path.dirname(os.path.abspath("console.py"))
-        path = os.path.join(Root, "file.json")
-        with open(path, 'r') as f:
-            lines = f.readlines()
-        try:
-            os.remove(path)
-        except:
-            pass
-        self.storage.save()
-        with open(path, 'r') as f:
-            lines2 = f.readlines()
-        self.assertEqual(lines, lines2)
-        try:
-            os.remove(path)
-        except:
-            pass
-        with open(path, "w") as f:
-            f.write("{}")
-        with open(path, "r") as r:
-            for line in r:
-                self.assertEqual(line, "{}")
-        self.assertIs(self.storage.reload(), None)
+        pass
 
-    def test_delete_one(self):
+    def test_delete(self):
         """ Tests the delete method """
-        storage = FileStorage()
-        all_users = storage.all(User)
-        user_count_init = len(all_users.keys())
-        user = User()
-        storage.delete(user)
-        all_users = storage.all(User)
-        user_count_after = len(all_users.keys())
-        self.assertEqual(user_count_init, user_count_after)
-
-    def test_delete_two(self):
-        """ Tests the delete method by passing in None """
-        storage = FileStorage()
-        all_users = storage.all(User)
-        user_count_init = len(all_users.keys())
-        storage.delete()
-        all_users = storage.all(User)
-        user_count_after = len(all_users.keys())
-        self.assertEqual(user_count_init, user_count_after)
-
-    def test_delete_three(self):
-        """ Tests the delete method by passing in garbage """
-        storage = FileStorage()
-        all_users = storage.all(User)
-        user_count_init = len(all_users.keys())
-        storage.delete("dogs")
-        all_users = storage.all(User)
-        user_count_after = len(all_users.keys())
-        self.assertEqual(user_count_init, user_count_after)
+        pass
 
 if __name__ == "__main__":
     unittest.main()
