@@ -5,6 +5,7 @@ from models.base_model import BaseModel, Base
 from models.city import City
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
+from os import getenv
 
 
 class State(BaseModel, Base):
@@ -17,13 +18,13 @@ class State(BaseModel, Base):
                   nullable=False)
     cities = relationship("City",
                           cascade="all")
-
-    @property
-    def cities(self):
-        ''' Returns list of city instances '''
-        results = storage.all(City)
-        city_list = []
-        for k, v in results.items():
-            if v.state_id == self.id:
-                city_list.append(v)
-        return city_list
+    if getenv('HBNB_TYPE_STORAGE') != 'db':
+        @property
+        def cities(self):
+            ''' Returns list of city instances '''
+            results = storage.all(City)
+            city_list = []
+            for k, v in results.items():
+                if v.state_id == self.id:
+                    city_list.append(v)
+            return city_list
