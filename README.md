@@ -58,3 +58,7 @@ Ex:
 [Francesca Cantor](https://github.com/fcantor)
 
 [Stephen Chu](https://github.com/stephenchu530)
+
+[Miranda Evans](https://github.com/mirandarevans)
+
+[Kevin Yook](https://github.com/yook00627)
