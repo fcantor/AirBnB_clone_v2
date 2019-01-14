@@ -4,7 +4,6 @@ from fabric.api import local
 from datetime import datetime
 from os.path import exists
 from os import makedirs
-import glob
 
 
 def do_pack():
