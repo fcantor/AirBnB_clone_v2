@@ -2,10 +2,19 @@
 '''Fabric script that generates a tgz archive of the web_static contents'''
 from fabric.api import local
 from datetime import datetime
+from os.path import exists
+from os import makedirs
+import glob
 
 
 def do_pack():
     '''Packs files'''
-    local('mkdir -p versions')
+    if not exists('versions'):
+        makedirs('versions')
     timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
-    local('tar cvfz versions/web_static_' + timestamp + '.tgz web_static')
+    filepath = 'versions/web_static_' + timestamp + '.tgz'
+    local('tar cvfz ' + filepath + ' web_static')
+    if exists(filepath):
+        return filepath
+    else:
+        return None
