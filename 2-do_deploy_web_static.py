@@ -10,6 +10,7 @@ import os
 env.hosts = ['35.231.160.140', '35.231.83.167']
 env.user = "ubuntu"
 
+
 def do_pack():
     '''Generates a .tgx archive'''
     name = "./versions/web_static_{}.tgz"
