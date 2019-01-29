@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-''' Script that generates a .tgz archive from the contents of the web_static folder'''
+'''
+Script that generates a .tgz archive from the contents of the web_static folder
+'''
 from fabric.operations import local
 from datetime import datetime
 import os
