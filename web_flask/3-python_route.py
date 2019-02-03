@@ -27,7 +27,6 @@ def c_text(text):
 def python_text(text="is cool"):
     ''' Returns a phrase starting with "Python" '''
     return ("Python " + text.replace("_", " "))
-    
 
 
 if __name__ == '__main__':
