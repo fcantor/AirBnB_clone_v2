@@ -55,6 +55,8 @@ class HBNBCommand(cmd.Cmd):
                     key_value = param.split("=")
                     if len(key_value) == 2 and\
                        type(key_value[1]) in [str, int, float]:
+                        key_value[1] = key_value[1].replace('"', '')
+                        key_value[1] = key_value[1].replace("'", "")
                         if isinstance(key_value[1], str):
                             if key_value[0] != 'email':
                                 key_value[1] = key_value[1].replace("_", " ")
