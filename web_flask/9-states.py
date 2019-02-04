@@ -20,6 +20,7 @@ def show_state_cities(state_id=None):
     return render_template('9-states.html', states=states,
                            target=target, state_id=state_id)
 
+
 @app.teardown_appcontext
 def remove_session(response_or_exc):
     ''' Closes current storage '''
