@@ -29,8 +29,6 @@ def cities_by_states():
             cities_list[v.state_id].append([v.id, v.name])
         else:
             cities_list[v.state_id] = [[v.id, v.name]]
-    print("STATES: {}".format(states_list))
-    print("CITIES: {}".format(cities_list))
     return render_template('8-cities_by_states.html', states_list=states_list,
                            cities_list=cities_list)
 
