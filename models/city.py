@@ -3,6 +3,7 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
+from os import getenv
 
 
 class City(BaseModel, Base):
@@ -13,10 +14,14 @@ class City(BaseModel, Base):
         name: input name
     """
     __tablename__ = 'cities'
-    name = Column(String(128),
-                  nullable=False)
-    state_id = Column(String(60),
-                      ForeignKey('states.id'),
+    if getenv['HBNB_TYPE_STORAGE'] == 'db':
+        name = Column(String(128),
                       nullable=False)
-    state = relationship("State")
-    places = relationship("Place", cascade="all")
+        state_id = Column(String(60),
+                          ForeignKey('states.id'),
+                          nullable=False)
+        state = relationship("State")
+        places = relationship("Place", cascade="all")
+    else:
+        name = ""
+        state_id = ""
