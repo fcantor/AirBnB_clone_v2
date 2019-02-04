@@ -17,8 +17,7 @@ class State(BaseModel, Base):
         name = Column(String(128),
                       nullable=False)
         cities = relationship("City",
-                              cascade="all",
-                              backref="state")
+                              cascade="all")
 
     else:
         name = ""
