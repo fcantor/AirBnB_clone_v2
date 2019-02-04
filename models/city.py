@@ -14,7 +14,7 @@ class City(BaseModel, Base):
         name: input name
     """
     __tablename__ = 'cities'
-    if getenv['HBNB_TYPE_STORAGE'] == 'db':
+    if getenv('HBNB_TYPE_STORAGE') == 'db':
         name = Column(String(128),
                       nullable=False)
         state_id = Column(String(60),
