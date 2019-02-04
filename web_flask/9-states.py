@@ -8,17 +8,16 @@ app = Flask(__name__)
 @app.route('/states/', strict_slashes=False)
 @app.route('/states/<state_id>', strict_slashes=False)
 def show_state_cities(state_id=None):
-    """ """
-    data = storage.all('State')
-    states = []
-    target = None
-    for k, v in data.items():
-        states.append(v)
+    ''' Returns an HTML page of specific state with cities '''
+    obj = storage.all('State')
+    states_list = []
+    state  = None
+    for k, v in obj.items():
+        states_list.append(v)
         if state_id == v.id:
-            target = v
-
-    return render_template('9-states.html', states=states,
-                           target=target, state_id=state_id)
+            state = v
+    return render_template('9-states.html', states_list=states_list,
+                           state=state, state_id=state_id)
 
 
 @app.teardown_appcontext
