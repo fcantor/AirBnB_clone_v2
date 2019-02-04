@@ -8,3 +8,5 @@ file.json
 main_delete.py
 main_place_amenities.py
 versions
+main.py
+7-dump.sql
